@@ -1,0 +1,11 @@
+numpy>=1.26
+scipy>=1.11
+pydantic>=2.4
+pandas>=2.1
+streamlit>=1.35
+requests>=2.31
+anthropic>=0.40
+pytest>=8.0
+
+psycopg[binary]>=3.2
+python-dotenv>=1.0
