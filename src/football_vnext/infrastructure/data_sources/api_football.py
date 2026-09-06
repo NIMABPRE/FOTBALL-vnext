@@ -76,14 +76,17 @@ class ApiFootballAdapter:
         self._session = requests.Session()
         self._session.headers.update({"x-apisports-key": self.api_key})
 
-    def fetch_fixtures(self, league_id: int, season: int) -> List[Match]:
-        """
+    def fetch_fixtures(self, league_id: int, season: int, date: Optional[str] = None) -> List[Match]:
+        """Fetch fixtures for a league/season, optionally narrowed to one calendar date.
+
         :param league_id: API-Football numeric league ID (e.g. 39 = Premier League)
         :param season: e.g. 2024 for the 2024/25 season
+        :param date: optional YYYY-MM-DD fixture date; preferred for daily slate loading
         """
-        payload = self.request_json(
-            f"{self.base_url}/fixtures", {"league": league_id, "season": season}
-        )
+        params = {"league": league_id, "season": season}
+        if date:
+            params["date"] = date
+        payload = self.request_json(f"{self.base_url}/fixtures", params)
         raw_fixtures = payload.get("response", [])
 
         matches: List[Match] = []

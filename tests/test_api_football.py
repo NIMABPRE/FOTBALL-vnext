@@ -107,8 +107,10 @@ def test_fetch_fixtures_parses_successful_response(mock_get):
     mock_get.return_value = _make_response(200, SAMPLE_FIXTURES_RESPONSE)
     adapter = ApiFootballAdapter(api_key="test-key")
 
-    matches = adapter.fetch_fixtures(league_id=39, season=2025)
+    matches = adapter.fetch_fixtures(league_id=39, season=2025, date="2025-08-15")
 
+    mock_get.assert_called_once()
+    assert mock_get.call_args.kwargs["params"] == {"league": 39, "season": 2025, "date": "2025-08-15"}
     assert len(matches) == 2
     finished, scheduled = matches
     assert finished.match_id == "1035001"

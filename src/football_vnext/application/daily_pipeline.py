@@ -148,7 +148,7 @@ def load_daily_fixtures(settings: Settings, league_name: str, target_date, timez
     if settings.api_football_key:
         api_season = target_date.year if target_date.month >= 7 else target_date.year - 1
         api = ApiFootballAdapter(settings.api_football_key)
-        for m in api.fetch_fixtures(cfg["api_league"], api_season):
+        for m in api.fetch_fixtures(cfg["api_league"], api_season, date=target_date.isoformat()):
             kickoff = m.kickoff.astimezone(zone)
             if local_start <= kickoff < local_end:
                 fixtures.append({
